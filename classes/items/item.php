@@ -1386,10 +1386,17 @@ abstract class Item {
 			$path = implode( '/', $path );
 		}
 
-		$sql = $wpdb->prepare(
-			"SELECT * FROM " . static::items_table() . " WHERE (path LIKE %s OR original_path LIKE %s);",
-			'%' . $path,
-			'%' . $path
+        // OMFG this is terrible. Let's change it.
+		// $sql = $wpdb->prepare(
+		// 	"SELECT * FROM " . static::items_table() . " WHERE (path LIKE %s OR original_path LIKE %s);",
+		// 	'%' . $path,
+		// 	'%' . $path
+		// );
+
+        $sql = $wpdb->prepare(
+			"SELECT * FROM " . static::items_table() . " WHERE (path = %s OR original_path = %s);",
+			'wp-content/%' . $path,
+			'wp-content/%' . $path
 		);
 
 		$results = $wpdb->get_results( $sql );
